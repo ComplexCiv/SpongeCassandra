@@ -1,0 +1,16 @@
+[{
+    "modid": "spongecassandra",
+    "name": "SteamWerks",
+    "description": "Plenty of time for steeeeeeaaaammmmm",
+    "version": "${version}",
+    "url": "https://github.com/ComplexCiv/SpongeCassandra",
+    "updateUrl": "",
+    "authorList": [
+      "AngrySoundTech"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "parent":"",
+    "dependencies": []
+}]
