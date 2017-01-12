@@ -1,5 +1,7 @@
 package complexciv.spongecassandra;
 
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Session;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -23,7 +25,7 @@ public class SpongeCassandra {
     private Logger logger;
 
     @Inject
-    @DefaultConfig(sharedRoot = false)
+    @DefaultConfig(sharedRoot = true)
     private File defaultConfig;
 
     @Inject
@@ -35,14 +37,27 @@ public class SpongeCassandra {
     @Inject
     private Game game;
 
+    private Session session;
+
     @Listener
     public void onPreInit(GamePreInitializationEvent event) {
         initConfig();
+
+        Cluster.Builder clusterBuilder = Cluster.builder();//.addContactPoint("localhost").withPort(9042).build();
+        for (ConfigurationNode node : config.getNode("cassandra", "contact-points").getChildrenList())
+            clusterBuilder.addContactPoint(node.getString());
+        clusterBuilder.withPort(config.getNode("cassandra", "port").getInt());
+
+        session = clusterBuilder.build().connect();
     }
 
     @Listener
     public void disable(GameStoppingServerEvent event) {
-        // Perform shutdown tasks here
+        session.close();
+    }
+
+    public Session getSession() {
+        return session;
     }
 
     private void initConfig() {
@@ -50,8 +65,8 @@ public class SpongeCassandra {
             config = configLoader.load();
 
             if (!defaultConfig.exists()) {
-                config.getNode("cassandra", "contact-points").setValue(Collections.singletonList("0.0.0.0"));
-                config.getNode("cassandra", "port").setValue(9160);
+                config.getNode("cassandra", "contact-points").setValue(Collections.singletonList("localhost"));
+                config.getNode("cassandra", "port").setValue(9042);
                 configLoader.save(config);
             }
         } catch (IOException e) {
