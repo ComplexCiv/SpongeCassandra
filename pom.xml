@@ -7,10 +7,6 @@
     <version>1.0-SNAPSHOT</version>
     <name>spongecassandra</name>
 
-    <description>
-        A one-line description of this Sponge plugin. Override this page by creating a file called index.md in src/site/markdown/
-    </description>
-
     <properties>
         <siteUrlSuffix>${project.version}</siteUrlSuffix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
