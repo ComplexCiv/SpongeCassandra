@@ -11,17 +11,18 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 
-/**
- * A simple sponge plugin
- */
 @Plugin(id = PomData.ARTIFACT_ID, name = PomData.NAME, version = PomData.VERSION)
-public class MyPlugin {
+public class SpongeCassandra {
 
-    // These are all injected on plugin load for users to work from
-    @Inject private Logger logger;
-    // Give us a configuration to work from
-    @Inject @DefaultConfig(sharedRoot = true) private ConfigurationLoader<CommentedConfigurationNode> configLoader;
-    @Inject private Game game;
+    @Inject
+    private Logger logger;
+
+    @Inject
+    @DefaultConfig(sharedRoot = true)
+    private ConfigurationLoader<CommentedConfigurationNode> configLoader;
+
+    @Inject
+    private Game game;
 
     @Listener
     public void onPreInit(GamePreInitializationEvent event) {

@@ -1,4 +1,4 @@
-spongecassandra is a plugin for Sponge that has not been documented by its author yet.
+SpongeCassandra is A Sponge plugin allowing use of Apache Cassandra across multiple plugins
 
 File locations
 --------------
