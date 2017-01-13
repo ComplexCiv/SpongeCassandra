@@ -1,4 +1,4 @@
-package complexciv.spongecassandra;
+package net.regiosa.spongecassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;

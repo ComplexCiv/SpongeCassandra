@@ -1,4 +1,4 @@
-package complexciv.spongecassandra;
+package net.regiosa.spongecassandra;
 
 import org.apache.cassandra.exceptions.ConfigurationException;
 import org.apache.thrift.transport.TTransportException;

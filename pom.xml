@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>complexciv</groupId>
+    <groupId>net.regiosa</groupId>
     <artifactId>spongecassandra</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>spongecassandra</name>
@@ -10,7 +10,7 @@
     <properties>
         <siteUrlSuffix>${project.version}</siteUrlSuffix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <githubUser>ComplexCiv</githubUser>
+        <githubUser>Regiosa</githubUser>
         <githubRepo>SpongeCassandra</githubRepo>
         <githubProject>${githubUser}/${githubRepo}</githubProject>
     </properties>
@@ -30,20 +30,15 @@
 
     <distributionManagement>
         <repository>
-            <id>complexcraft-releases</id>
-            <name>Complexcraft releases</name>
+            <id>regiosa-releases</id>
+            <name>Regiosa releases</name>
             <url>http://198.199.64.232:8081/artifactory/libs-release-local/</url>
         </repository>
         <snapshotRepository>
-            <id>complexcraft-snapshots</id>
-            <name>Complexcraft snapshots</name>
+            <id>regiosa-snapshots</id>
+            <name>Regiosa snapshots</name>
             <url>http://198.199.64.232:8081/artifactory/libs-snapshot-local/</url>
         </snapshotRepository>
-        <site>
-            <id>gh-pages</id>
-            <name>GitHub Pages</name>
-            <url>github:http://${githubUser}.github.io/${githubRepo}/${siteUrlSuffix}/</url>
-        </site>
     </distributionManagement>
 
     <prerequisites>
@@ -199,29 +194,13 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.3</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.trajano.wagon</groupId>
-                        <artifactId>wagon-git</artifactId>
-                        <version>2.0.3</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.doxia</groupId>
-                        <artifactId>doxia-module-markdown</artifactId>
-                        <version>1.6</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <scmCommentPrefix xml:space="preserve">[RELEASE] </scmCommentPrefix>
-                    <goals>install deploy site-deploy</goals> <!-- install is here to fix javadoc generation in multi-module projects -->
+                    <goals>install deploy</goals> <!-- install is here to fix javadoc generation in multi-module projects -->
                     <releaseProfiles>release</releaseProfiles>
                 </configuration>
             </plugin>
