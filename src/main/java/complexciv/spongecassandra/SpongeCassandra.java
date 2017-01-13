@@ -2,10 +2,12 @@ package complexciv.spongecassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.config.DefaultConfig;
@@ -17,6 +19,7 @@ import org.spongepowered.api.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 @Plugin(id = PomData.ARTIFACT_ID, name = PomData.NAME, version = PomData.VERSION)
 public class SpongeCassandra {
@@ -40,15 +43,12 @@ public class SpongeCassandra {
     private Session session;
 
     @Listener
-    public void onPreInit(GamePreInitializationEvent event) {
+    public void onPreInit(GamePreInitializationEvent event) throws ObjectMappingException {
         initConfig();
-
-        Cluster.Builder clusterBuilder = Cluster.builder();//.addContactPoint("localhost").withPort(9042).build();
-        for (ConfigurationNode node : config.getNode("cassandra", "contact-points").getChildrenList())
-            clusterBuilder.addContactPoint(node.getString());
-        clusterBuilder.withPort(config.getNode("cassandra", "port").getInt());
-
-        session = clusterBuilder.build().connect();
+        session = createCassandraSession(
+                config.getNode("cassandra", "contact-points").getList(new TypeToken<String>() {}),
+                config.getNode("cassandra", "port").getInt()
+        );
     }
 
     @Listener
@@ -56,8 +56,10 @@ public class SpongeCassandra {
         session.close();
     }
 
-    public Session getSession() {
-        return session;
+    Session createCassandraSession(List<String> contactPoints, int port) {
+        Cluster.Builder clusterBuilder = Cluster.builder().withPort(port);
+        contactPoints.forEach(clusterBuilder::addContactPoint);
+        return clusterBuilder.build().connect();
     }
 
     private void initConfig() {
@@ -72,5 +74,9 @@ public class SpongeCassandra {
         } catch (IOException e) {
             logger.warn("Main config could not be loaded/created/changed!");
         }
+    }
+
+    public Session getSession() {
+        return session;
     }
 }
