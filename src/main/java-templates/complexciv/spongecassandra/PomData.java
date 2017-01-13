@@ -1,4 +1,4 @@
-package complexciv.spongecassandra;
+package net.regiosa.spongecassandra;
 
 class PomData {
 	public static final String ARTIFACT_ID = "${project.artifactId}";
